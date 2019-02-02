@@ -31,15 +31,13 @@ socket.on('createMessage',function(message,callback){
 console.log('Create Message:',message);
 io.emit('newMessage',genarateMessage(message.from , message.text));
 callback('server successfully start.');
-
-// socket.broadcast.emit('newMessage',{
-//       from:message.from,
-//       text:message.text,
-//       createAt:new Date().getTime()
-// });
-
-
 });
+
+
+socket.on('createLocationMessage',function(coords){
+io.emit('newMessage',genarateMessage('Admin',`${coords.latitude},${coords.longitude}`));
+});
+
 
 socket.on('disconnect',function(){
    console.log('user was disconnected');
