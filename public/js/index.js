@@ -18,6 +18,17 @@ console.log('Connected to the Server');
    });
 
 
+   socket.on('newLocationMessage',function(message){
+      var li = jQuery('<li></li>');
+      var a = jQuery('<a target="_blank">This is my current Location</a>');
+
+      li.text(`${message.from}:`);
+      a.attr('href',message.url);
+      li.append(a);
+      jQuery('#message-show').append(li);
+   });
+
+
    jQuery('#message-form').on('submit',function(e){
 e.preventDefault();
 socket.emit('createMessage',{
