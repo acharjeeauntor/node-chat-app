@@ -9,9 +9,9 @@ console.log('Connected to the Server');
    });
 
    socket.on('newMessage',function(message){
-      console.log('new Message:',message);
+      var formattedTime = moment(message.createdAt).format('h:mm a');
       var li = jQuery('<li></li>');
-      li.text(`${message.from}: ${message.text}`);
+      li.text(`${message.from} ${formattedTime}: ${message.text}`);
 
    jQuery('#message-show').append(li);
 
@@ -19,10 +19,11 @@ console.log('Connected to the Server');
 
 
    socket.on('newLocationMessage',function(message){
+      var formattedTime = moment(message.createdAt).format('h:mm a');
       var li = jQuery('<li></li>');
       var a = jQuery('<a target="_blank">This is my current Location</a>');
 
-      li.text(`${message.from}:`);
+      li.text(`${message.from} ${formattedTime}:`);
       a.attr('href',message.url);
       li.append(a);
       jQuery('#message-show').append(li);
