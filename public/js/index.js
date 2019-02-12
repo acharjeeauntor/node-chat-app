@@ -10,23 +10,32 @@ console.log('Connected to the Server');
 
    socket.on('newMessage',function(message){
       var formattedTime = moment(message.createdAt).format('h:mm a');
-      var li = jQuery('<li></li>');
-      li.text(`${message.from} ${formattedTime}: ${message.text}`);
+      var template = jQuery('#message-template').html();
+      var html = Mustache.render(template,{
+         text:message.text,
+         from:message.from,
+         createAt:formattedTime
+      });
+      jQuery('#message-show').append(html);
 
-   jQuery('#message-show').append(li);
+   //    var formattedTime = moment(message.createdAt).format('h:mm a');
+   //    var li = jQuery('<li></li>');
+   //    li.text(`${message.from} ${formattedTime}: ${message.text}`);
+
+   // jQuery('#message-show').append(li);
 
    });
 
 
    socket.on('newLocationMessage',function(message){
       var formattedTime = moment(message.createdAt).format('h:mm a');
-      var li = jQuery('<li></li>');
-      var a = jQuery('<a target="_blank">This is my current Location</a>');
-
-      li.text(`${message.from} ${formattedTime}:`);
-      a.attr('href',message.url);
-      li.append(a);
-      jQuery('#message-show').append(li);
+      var template = jQuery('#location-message-template').html();
+      var html = Mustache.render(template,{
+         from:message.from,
+         url:message.url,
+         createAt:formattedTime
+      });
+      jQuery('#message-show').append(html);
    });
 
 var messageTextBox = jQuery('[name=message]');
