@@ -1,5 +1,20 @@
 var socket = io();
 
+function scrollToBottom(){
+var message = jQuery('#message-show');
+var newMessage = message.children('li:last-child');
+
+var clientHeight = message.prop('clientHeight');
+var scrollTop = message.prop('scrollTop');
+var scrollHeight = message.prop('scrollHeight');
+var newMessageHeight = newMessage.innerHeight();
+var lastMessageHeight = newMessage.prev().innerHeight();
+
+if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight){
+   message.scrollTop(scrollHeight);
+}
+}
+
    socket.on('connect',function(){
 console.log('Connected to the Server');
    });
@@ -17,6 +32,7 @@ console.log('Connected to the Server');
          createAt:formattedTime
       });
       jQuery('#message-show').append(html);
+      scrollToBottom();
 
    //    var formattedTime = moment(message.createdAt).format('h:mm a');
    //    var li = jQuery('<li></li>');
@@ -36,6 +52,7 @@ console.log('Connected to the Server');
          createAt:formattedTime
       });
       jQuery('#message-show').append(html);
+      scrollToBottom();
    });
 
 var messageTextBox = jQuery('[name=message]');
