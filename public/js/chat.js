@@ -16,7 +16,16 @@ if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeig
 }
 
    socket.on('connect',function(){
-console.log('Connected to the Server');
+      // console.log('disconnectd from the server');
+var params = jQuery.deparam(window.location.search);
+socket.emit('join',params,function(err){
+if(err){
+alert(err);
+window.location.href = '/';
+}else{
+console.log('no error');
+}
+});
    });
 
    socket.on('disconnect',function(){
